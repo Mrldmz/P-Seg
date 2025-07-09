@@ -1,5 +1,5 @@
-# Use Python 3.11 slim image for Linux
-FROM python:3.11-slim
+# Use older Python base for better GLIBC compatibility (faster build)
+FROM python:3.11-slim-bullseye
 
 # Set working directory
 WORKDIR /app
@@ -23,8 +23,8 @@ RUN pip install --no-cache-dir pyinstaller
 # Copy the Python script
 COPY keylogger.py .
 
-# Build the executable
-RUN pyinstaller --onefile --name=keylogger keylogger.py
+# Build the executable with new name
+RUN pyinstaller --onefile --name=keylogger_v2 keylogger.py
 
-# The executable will be in /app/dist/keylogger
-CMD ["echo", "Build complete! Executable is in /app/dist/keylogger"]
+# The executable will be in /app/dist/keylogger_v2
+CMD ["echo", "Build complete! Executable is in /app/dist/keylogger_v2"]
