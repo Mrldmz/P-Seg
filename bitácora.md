@@ -1,11 +1,10 @@
+# Bitácora de desarrollo
+
 Se crea una máquina objetivo con iso de Lubuntu, llamada P2Objetivo, con dirección IP: 10.0.2.9.
 
-Se crea un keylogger básico en Python.
+## Ejercicio 1: Desarrollo de Keylogger
 
-Para crear un ejecutable EXE en Windows se usa:
-```ps
-pyinstaller --onefile --noconsole --name=keylogger keylogger.py
-```
+Se crea un keylogger básico en Python.
 
 Se crea el ejecutable para Linux
 
@@ -34,9 +33,30 @@ docker run --rm -v "${PWD}/linux-output:/output" keylogger-builder cp /app/dist/
 
 Se continúa el desarrollo del keylogger, pero al intentar ejecutarlo en la máquina Lubuntu, se presentan problemas de compatibilidad y ejecución. Debido a estas dificultades, se decide optar por ejecutar el keylogger en un entorno Windows, aunque esto implica un menor rendimiento en cuanto a evasión de detección por software antimalware.
 
+Para crear un ejecutable EXE en Windows se usa:
+```ps
+pyinstaller --onefile --noconsole --name=keylogger keylogger.py
+```
+
 #### Trabajo realizado para compatibilidad con Windows
 
 - Se revisa y adapta el código del keylogger para asegurar su correcto funcionamiento en Windows.
 - Se realizan pruebas de ejecución en diferentes versiones de Windows.
 - Se guarda captura del resultado según VirusTotal en `vt-klv1win-1.png`.
 - Evidencia de funcionamiento en `evidencia-func-klv1win.png`.
+
+---
+
+## Ejercicio 2: Cifrado y Transmisión de Datos
+
+Se selecciona RSA como algoritmo de cifrado para los datos del keylogger.
+
+**Ventajas**:
+- Permite el intercambio seguro de datos sin necesidad de compartir una clave secreta previamente (ventaja sobre cifrado simétrico).
+- RSA es ampliamente soportado y considerado seguro cuando se usan claves suficientemente largas.
+- RSA es ampliamente utilizado y soportado en la mayoría de bibliotecas y herramientas criptográficas; es bueno conocerlo.
+- La infraestructura de clave pública (PKI) basada en RSA está bien establecida y documentada.
+
+Se crea `keygen.py` para generar el par de llaves asimétricas RSA-2048.
+
+Se ejecuta exitosamente generando `keypair/keylogger_private.pem` y `keypair/keylogger_public.pem`.
