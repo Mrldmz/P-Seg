@@ -29,4 +29,14 @@ Se extrae el ejecutable Linux del contenedor:
 ```ps
 docker run --rm -v "${PWD}/linux-output:/output" keylogger-builder cp /app/dist/keylogger /output/
 ```
+
 ---
+
+Se continúa el desarrollo del keylogger, pero al intentar ejecutarlo en la máquina Lubuntu, se presentan problemas de compatibilidad y ejecución. Debido a estas dificultades, se decide optar por ejecutar el keylogger en un entorno Windows, aunque esto implica un menor rendimiento en cuanto a evasión de detección por software antimalware.
+
+#### Trabajo realizado para compatibilidad con Windows
+
+- Se revisa y adapta el código del keylogger para asegurar su correcto funcionamiento en Windows.
+- Se realizan pruebas de ejecución en diferentes versiones de Windows.
+- Se guarda captura del resultado según VirusTotal en `vt-klv1win-1.png`.
+- Evidencia de funcionamiento en `evidencia-func-klv1win.png`.
