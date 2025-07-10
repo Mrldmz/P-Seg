@@ -8,26 +8,33 @@ def encrypt_file():
     with open(public_key_path, "rb") as key_file:
         public_key = serialization.load_pem_public_key(key_file.read())
     
-    # Leer el archivo de entrada
+    # Leer el archivo de entrada completo
     input_path = os.path.join("test", "in.txt")
-    with open(input_path, "r") as input_file:
-        lines = input_file.readlines()
+    with open(input_path, "rb") as input_file:
+        content = input_file.read()
     
-    # Crear el directorio de salida si no existe
+    # RSA-2048 con OAEP puede cifrar hasta ~190 bytes por bloque
+    max_chunk_size = 190
+    encrypted_blocks = []
+    
+    # Dividir contenido en bloques y cifrar
+    for i in range(0, len(content), max_chunk_size):
+        chunk = content[i:i + max_chunk_size]
+        encrypted_chunk = public_key.encrypt(
+            chunk,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        encrypted_blocks.append(encrypted_chunk)
+    
+    # Guardar todos los bloques cifrados concatenados
     output_path = os.path.join("test", "encrypted_output.txt")
     with open(output_path, "wb") as output_file:
-        for line in lines:
-            # Cifrar cada línea usando la llave pública
-            encrypted_data = public_key.encrypt(
-                line.encode('utf-8'),
-                padding.OAEP(
-                    mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                    algorithm=hashes.SHA256(),
-                    label=None
-                )
-            )
-            # Escribir los datos cifrados en el archivo de salida
-            output_file.write(encrypted_data + b'\n')
+        for encrypted_block in encrypted_blocks:
+            output_file.write(encrypted_block)
 
 if __name__ == "__main__":
     encrypt_file()
