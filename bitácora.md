@@ -60,3 +60,16 @@ Se selecciona RSA como algoritmo de cifrado para los datos del keylogger.
 Se crea `keygen.py` para generar el par de llaves asimétricas RSA-2048.
 
 Se ejecuta exitosamente generando `keypair/keylogger_private.pem` y `keypair/keylogger_public.pem`.
+
+### Cifrado
+
+Se desarrolla `encrypt-simple.py` para implementar el cifrado RSA de los datos capturados por el keylogger.
+
+**Características del script**:
+- Carga la clave pública RSA desde `keypair/keylogger_public.pem`
+- Lee los datos del archivo de log del keylogger
+- Cifra el contenido usando RSA con padding OAEP
+- Guarda los datos cifrados en un archivo binario
+
+### Descifrado
+
