@@ -1,5 +1,5 @@
-# Use older Python base for better GLIBC compatibility (faster build)
-FROM python:3.11-slim-bullseye
+# Use Python 3.8 to match Lubuntu 20.04 default version
+FROM python:3.8-slim-bullseye
 
 # Set working directory
 WORKDIR /app
@@ -23,8 +23,8 @@ RUN pip install --no-cache-dir pyinstaller
 # Copy the Python script
 COPY keylogger.py .
 
-# Build the executable with new name
-RUN pyinstaller --onefile --name=keylogger_v2 keylogger.py
+# Build the executable with Python 3.8 compatibility
+RUN pyinstaller --onefile --name=keylogger_v3 keylogger.py
 
-# The executable will be in /app/dist/keylogger_v2
-CMD ["echo", "Build complete! Executable is in /app/dist/keylogger_v2"]
+# The executable will be in /app/dist/keylogger_v3
+CMD ["echo", "Build complete! Executable is in /app/dist/keylogger_v3"]
