@@ -66,10 +66,18 @@ Se ejecuta exitosamente generando `keypair/keylogger_private.pem` y `keypair/key
 Se desarrolla `encrypt-simple.py` para implementar el cifrado RSA de los datos capturados por el keylogger.
 
 **Características del script**:
-- Carga la clave pública RSA desde `keypair/keylogger_public.pem`
-- Lee los datos del archivo de log del keylogger
-- Cifra el contenido usando RSA con padding OAEP
-- Guarda los datos cifrados en un archivo binario
+- Carga la clave pública RSA desde `keypair/keylogger_public.pem`.
+- Lee los datos del archivo de log del keylogger.
+- Cifra el contenido usando RSA con padding OAEP.
+- Guarda los datos cifrados en un archivo binario.
 
 ### Descifrado
 
+Se desarrolla `decrypt-simple.py` para implementar el descifrado RSA de los datos cifrados.
+
+**Características del script**:
+- Carga la clave privada RSA desde `keypair/keylogger_private.pem`.
+- Lee los datos cifrados del archivo binario.
+- Descifra el contenido usando RSA con padding OAEP.
+- Guarda los datos descifrados en texto plano.
+- Error: Se agregan saltos de línea al archivo de salida.
